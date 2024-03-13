@@ -1,0 +1,23 @@
+name: Deploy To fly.io
+on:
+  workflow_dispatch:
+    inputs:
+      correlationId:
+        description: '"Correlation Id"'
+        required: true
+env:
+  DEMO_TOKEN: fo1_GH0M7yvLWYkunojmEAdN8EwILUiNE0HxROsdHY1UX-4
+  FASLH_API_URL: https://us-central1-january-9f554.cloudfunctions.net/ghevents
+jobs:
+  deploy_to_fly:
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: checkout App Repo
+        uses: actions/checkout@v3
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+        name: Deploy to Fly.io
+        run: flyctl deploy --strategy immediate --remote-only --config ./deploy.toml --verbose
+        env:
+          FLY_API_TOKEN: 'FlyV1 fm2_lJPECAAAAAAAALalxBDDzbronjytU2z1LaSfe/6JwrVodHRwczovL2FwaS5mbHkuaW8vdjGWAJLOAAQVkR8Lk7lodHRwczovL2FwaS5mbHkuaW8vYWFhL3YxxDxPPPQXZKpnrVciFfF05LklNITx54gj35bKFgrCgFORZcnHxQGm5xgAEMbfPgRaUIPZg8Fc128PDBvFRYLETu+bZ0wo/qqfawiLy39ER3QTXrm2ztYpL5ulB+W+mfBf/Nrx7Jzh6QsPcLZO+uDeikQSI5oqci42ObYq9MUdTlL/W4MaXWkiM7rPqtDNmw2SlAORgc4AEuMJHwWRgqdidWlsZGVyH6J3Zx8BxCC0tvQbTm00CfXxbybv9k4TbEtYe2WWhbck9/NaP5GPTg==,fm2_lJPETu+bZ0wo/qqfawiLy39ER3QTXrm2ztYpL5ulB+W+mfBf/Nrx7Jzh6QsPcLZO+uDeikQSI5oqci42ObYq9MUdTlL/W4MaXWkiM7rPqtDNm8QQzQTNag44ONBuZDBjnhfQw8O5aHR0cHM6Ly9hcGkuZmx5LmlvL2FhYS92MZYEks5l8a6vzwAAAAEh6czNCpHOAAPM0QzEEDwCh+q31mbMWsMzFyVeFN3EIA0gV3dSIk2OrgyVPcmvkuUKjJv+49LXFSh0bnkb2QYj'
